@@ -1,6 +1,4 @@
 from tkinter import *
-from tkinter import messagebox
-from tkinter import colorchooser
 import twitter
 
 class MainMenu(Frame):
