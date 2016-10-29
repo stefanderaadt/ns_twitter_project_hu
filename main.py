@@ -27,14 +27,14 @@ class MainMenu(Frame):
     def updateListbox(self):
         self.listbox.delete(0, END)
 
-        tweets = self.twitter.feed()
+        tweets = self.twitter.getFeed()
 
         for tweet in tweets:
             self.listbox.insert(END, tweet['text'])
 
     def onPressTweet(self):
 
-        self.twitter.tweet(self.message.get())
+        self.twitter.postTweet(self.message.get())
 
         self.message.delete(0, END)
 

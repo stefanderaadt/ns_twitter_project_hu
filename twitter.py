@@ -23,7 +23,7 @@ class Twitter:
 
         return data
 
-    def tweet(self, message):
+    def postTweet(self, message):
 
         message = quote(message, safe='')
         url = "https://api.twitter.com/1.1/statuses/update.json?status="+message
@@ -32,7 +32,7 @@ class Twitter:
 
         return
 
-    def feed(self):
+    def getFeed(self):
 
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=" + USER
 
