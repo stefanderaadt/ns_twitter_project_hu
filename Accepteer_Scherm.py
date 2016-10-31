@@ -15,15 +15,16 @@ class MainMenu(Frame):
 def TweetOntvangen():
 
     while True:
-        with open("/data/tweet.csv", "r") as MyCsvFile:
+        with open("C:/Users/jeffr/Dropbox/PycharmProjects/ns_twitter_project_hu2/data/tweets.csv ", "r") as MyCsvFile:
             reader = csv.reader(MyCsvFile)
             d = dict(reader)
             print(d)
 
 
-
+TweetOntvangen()
 mainWindow = Tk()
 mainWindow.title("Accepteer Tweet")
 mainWindow.geometry("600x350")
 MainMenu(mainWindow)
 mainWindow.mainloop()
+
