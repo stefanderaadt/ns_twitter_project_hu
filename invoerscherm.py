@@ -5,6 +5,13 @@ class MainMenu(Frame):
     def __init__(self, master):
         super(MainMenu, self).__init__(master)
 
+        pad = 3
+
+        self._geom='200x200+0+0'
+        master.geometry("{0}x{1}+0+0".format(
+            master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+        master.bind('<Escape>',self.toggle_geom)
+
         self.twitter = twitter.Twitter()
 
         self.grid()
@@ -23,6 +30,12 @@ class MainMenu(Frame):
         self.listbox.grid(row=4, column=0, columnspan=8)
 
         self.updateListbox()
+
+    def toggle_geom(self, event):
+        geom = self.master.winfo_geometry()
+        print(geom, self._geom)
+        self.master.geometry(self._geom)
+        self._geom = geom
 
     def updateListbox(self):
         self.listbox.delete(0, END)
@@ -43,6 +56,6 @@ class MainMenu(Frame):
 
 mainWindow = Tk()
 mainWindow.title("Invoer scherm")
-mainWindow.geometry("450x450")
+#mainWindow.geometry("450x450")
 app = MainMenu(mainWindow)
 mainWindow.mainloop()
