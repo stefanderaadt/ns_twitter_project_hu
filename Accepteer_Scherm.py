@@ -1,4 +1,5 @@
 from tkinter import *
+import csv
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -10,16 +11,19 @@ class MainMenu(Frame):
     def create_GUI(self):
         Label(mainWindow, text="Message", width="10").grid(row=0, column=0)
 
-        self.button = Button(mainWindow, text="BUTTON", command=self.onPressTweet, width="20")
-        self.button.grid(row=2, column=0, columnspan=2)
 
-    def onPressTweet(self):
+def TweetOntvangen():
+
+    while True:
+        with open("/data/tweet.csv", "r") as MyCsvFile:
+            reader = csv.reader(MyCsvFile)
+            d = dict(reader)
+            print(d)
 
 
 
 mainWindow = Tk()
-mainWindow.title("Venster naam")
-mainWindow.geometry("450x450")
+mainWindow.title("Accepteer Tweet")
+mainWindow.geometry("600x350")
 MainMenu(mainWindow)
 mainWindow.mainloop()
-a
