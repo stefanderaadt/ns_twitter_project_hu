@@ -14,8 +14,9 @@ class MainMenu(Frame):
         self.TweetOntvangen()
         self.FormaatKiezen()
 
-    def create_GUI(self):
 
+    def create_GUI(self):
+        r = ''
         self.label1 = Label(mainWindow, text=self.MainMessage()[0], width="2000", height="1",
                             background=self.KleurTweet(), anchor='w')
         self.label1.grid(row=0, column=0, sticky=W)
@@ -30,7 +31,7 @@ class MainMenu(Frame):
             self.button.grid(row=2 + i, column=0, sticky=W)
 
     def TweetOntvangen(self):
-
+        # Alle Tweets met daarbij de verzender word uit een CSV-bestand naar een list geschreven
         with open("data/tweets.csv ", "r") as MyCsvFile:
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
@@ -64,21 +65,19 @@ class MainMenu(Frame):
     def Onpress(self):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            TweetNaarTwitter = 1
-        else:
-            TweetNaarTwitter = 0
-        return TweetNaarTwitter
-    def TweetVersturen(self):
-        if self.Onpress() == 1:
-            print("a")
+            print(self.TweetOntvangen()[0][0])
         else:
             print("b")
+        return
+
+
     def FormaatKiezen(self):
         # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
         # if screen == 'fullscreen':
         #     return mainWindow.attributes('-fullscreen', True)
         # else:
         # return mainWindow.geometry('500x500+1920+200')
+
         return mainWindow.geometry('500x500')
 
     def KleurTweet(self):
@@ -93,6 +92,5 @@ class MainMenu(Frame):
 mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
 MainMenu(mainWindow)
-
-mainWindow.configure(background=kleur)  # KleurTweet())
+mainWindow.configure(background=kleur)
 mainWindow.mainloop()
