@@ -1,3 +1,6 @@
-tweet;key
-Hallo;1
-bye;2
+key,tweet
+0,Hallo
+1,Bye
+2,Stil
+3,Grrrr
+
