@@ -22,3 +22,4 @@ mainWindow.title("Venster naam")
 mainWindow.geometry("450x450")
 MainMenu(mainWindow)
 mainWindow.mainloop()
+a
