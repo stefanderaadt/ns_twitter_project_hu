@@ -42,7 +42,7 @@ class MainMenu(Frame):
 
 
 mainWindow = Tk()
-mainWindow.title("Test")
+mainWindow.title("Invoer scherm")
 mainWindow.geometry("450x450")
 app = MainMenu(mainWindow)
 mainWindow.mainloop()
