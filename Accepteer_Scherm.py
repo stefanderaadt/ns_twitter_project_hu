@@ -1,5 +1,7 @@
 from tkinter import *
+from tkinter import messagebox
 import csv
+import twitter
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -7,22 +9,24 @@ class MainMenu(Frame):
 
         self.grid()
         self.create_GUI()
+        self.twitter = twitter.Twitter()
+        self.twitter.postTweet("bericht")
 
     def create_GUI(self):
-        self.label = Label(mainWindow, text=MainMessage()[0], width="2000",height = "1", background=KleurTweet(), anchor='w')
-        self.label.grid(row=0, column=0, sticky=W)
-        self.label = Label(mainWindow, text=MainMessage()[1], width="2000",height = "1", background=KleurTweet(), anchor='w')
-        self.label.grid(row=1, column=0, sticky=W)
-        for i in range(len(TweetOntvangen()[0])):
-            self.label = Button(mainWindow, text=(TweetOntvangen()[0][i]+ " ontvangen door, "+ TweetOntvangen()[1][i]), width="2000", anchor='w')
 
-            self.label.grid(row=2+i, column=0, sticky=W)
+        self.label1 = Label(mainWindow, text=MainMessage()[0], width="2000",height = "1", background=KleurTweet(), anchor='w')
+        self.label1.grid(row=0, column=0, sticky=W)
+        self.label2 = Label(mainWindow, text=MainMessage()[1], width="2000",height = "1", background=KleurTweet(), anchor='w')
+        self.label2.grid(row=1, column=0, sticky=W)
+        for i in range(len(TweetOntvangen()[0])):
+            self.button = Button(mainWindow, text=(TweetOntvangen()[0][i]+ " ontvangen door, "+ TweetOntvangen()[1][i]), command=Onpress, width="2000", anchor='w')
+
+            self.button.grid(row=2+i, column=0, sticky=W)
 
 def TweetOntvangen():
 
 
         with open("C:/Users/jeffrey/Dropbox/PycharmProjects/ns_twitter_project_hu2/data/tweets.csv ", "r") as MyCsvFile:
-            tweet = 0
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
             GeplaatstDoor = []
@@ -50,6 +54,15 @@ def MainMessage():
             bericht = "U heeft een bericht."
             bericht1 = "Dit is uw bericht:"
     return bericht, bericht1
+
+
+def Onpress():
+    result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
+    if result == 'yes':
+        TweetNaarTwitter = 1
+    else:
+        TweetNaarTwitter = 0
+    return TweetNaarTwitter
 
 def FormaatKiezen():
     # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
