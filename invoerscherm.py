@@ -26,7 +26,7 @@ class MainMenu(Frame):
         message = self.message.get()
 
         if len(message)<=140:
-
+        
         else:
             print("FOUT")
 
