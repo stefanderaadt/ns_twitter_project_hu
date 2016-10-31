@@ -9,11 +9,14 @@ class MainMenu(Frame):
         self.create_GUI()
 
     def create_GUI(self):
-        self.label = Label(mainWindow, text=MainMessage(), width="75",height = "3", background=KleurTweet())
+        self.label = Label(mainWindow, text=MainMessage()[0], width="2000",height = "1", background=KleurTweet(), anchor='w')
         self.label.grid(row=0, column=0, sticky=W)
-        for i in range(len(TweetOntvangen())):
-            self.label = Label(mainWindow, text=TweetOntvangen()[i], width="100", anchor='w')
-            self.label.grid(row=1+i, column=0, sticky=W)
+        self.label = Label(mainWindow, text=MainMessage()[1], width="2000",height = "1", background=KleurTweet(), anchor='w')
+        self.label.grid(row=1, column=0, sticky=W)
+        for i in range(len(TweetOntvangen()[0])):
+            self.label = Button(mainWindow, text=(TweetOntvangen()[0][i]+ " ontvangen door, "+ TweetOntvangen()[1][i]), width="2000", anchor='w')
+
+            self.label.grid(row=2+i, column=0, sticky=W)
 
 def TweetOntvangen():
 
@@ -22,11 +25,13 @@ def TweetOntvangen():
             tweet = 0
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
+            GeplaatstDoor = []
             for row in reader:
                 OntvangenTweets.append(row['tweet'])
-        return OntvangenTweets
+                GeplaatstDoor.append(row["plaatser"])
+        return OntvangenTweets,GeplaatstDoor
 def IsTweetOntvangen():
-    if len(TweetOntvangen()) != 0:
+    if len(TweetOntvangen()[0]) != 0:
         Tweet = 1
     else:
         Tweet = 0
@@ -34,11 +39,17 @@ def IsTweetOntvangen():
 
 def MainMessage():
     bericht = ""
+    bericht1 = ''
     if IsTweetOntvangen()== 0:
         bericht = 'U heeft geen bericht ontvangen.'
     if IsTweetOntvangen()== 1:
-        bericht = "U heeft een bericht.\n Dit zijn de berichten:"
-    return( bericht)
+        if len(TweetOntvangen()[0]) > 1:
+            bericht = "U heeft "+str(len(TweetOntvangen()[0]))+" berichten"
+            bericht1 = "Dit zijn de berichten:"
+        else:
+            bericht = "U heeft een bericht."
+            bericht1 = "Dit is uw bericht:"
+    return bericht, bericht1
 
 def FormaatKiezen():
     # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
@@ -61,7 +72,7 @@ mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
 FormaatKiezen()
 MainMenu(mainWindow)
-mainWindow.configure(background="grey")
+mainWindow.configure(background=KleurTweet())
 mainWindow.mainloop()
 
 
