@@ -32,7 +32,7 @@ class MainMenu(Frame):
         self.photo = PhotoImage(file=IMG_PATH + "ns_logoklein.png")
         self.nsimage = Button(mainWindow, command=self.Onpressns, image=self.photo, width="200", height="97")
         self.nsimage.place(relx=1, rely=1, anchor=SE)
-        self.refreshb = Button(mainWindow, text="Refresh", width=15, height="1", command=self.ref1, bg="#1c1c6b", fg='white')
+        self.refreshb = Button(mainWindow, text="Refresh", width=15, height="2", command=self.ref1, bg="#1c1c6b", fg='white')
         # self.refreshb.grid(row=2, column=0, sticky=W)
         self.refreshb.place(relx=1, rely=0.112, anchor=E)
 
@@ -129,11 +129,11 @@ class MainMenu(Frame):
             bestand.write(plaatser + "," + status)
 
     def FormaatKiezen(self):
-        screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
-        if screen == 'fullscreen':
+        # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
+        # if screen == 'fullscreen':
             return mainWindow.attributes('-fullscreen', True)
-        else:
-            return mainWindow.geometry('1920x1020+0+27')
+        # else:
+        # return mainWindow.geometry('1920x1020+0+27')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
@@ -150,11 +150,10 @@ class MainMenu(Frame):
     #             width = len(self.list[i][0])
     #             print(width)
     #     return width
-    def buttonWidth(self, inputr):
+    def buttonWidth(self, tweet):
         width = 120
-        if len(inputr) > width:
-            width = len(inputr)
-            print(width)
+        if len(tweet) > width:
+            width = len(tweet)
         return width
 
 mainWindow = Tk()
