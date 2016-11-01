@@ -13,6 +13,7 @@ class MainMenu(Frame):
 
         self.button = []
 
+        self.frame = Frame
         self.grid()
         self.create_GUI()
         self.twitter = twitter.Twitter()
@@ -30,13 +31,17 @@ class MainMenu(Frame):
                             background=self.KleurTweet(), anchor='w')
         self.label2.grid(row=1, column=0, sticky=W)
     def refresh(self):
+        #self.button
         for b in self.button:
             b.grid_forget()
 
-        for i in range(len(self.TweetOntvangen())):
+        self.list = self.TweetOntvangen()
+
+        for i in range(len(self.list)):
             self.button.append(Button(mainWindow,
-                                 text=(self.TweetOntvangen()[i][0] + " ontvangen door, " + self.TweetOntvangen()[i][1]),
+                                 text=(self.list[i][0] + " ontvangen door, " + self.list[i][1]),
                                  command= lambda i=i: self.Onpress(i), width="2000", anchor='w'))
+            print(self.list[i][0])
 
             self.button[i].grid(row=2 + i, column=0, sticky=W)
 
@@ -74,7 +79,7 @@ class MainMenu(Frame):
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            self.twitter.postTweet(self.list[i][0])
+            #self.twitter.postTweet(self.list[i][0])
             self.list.remove(self.list[i])
             print(self.list)
             self.TweetVerwijderen()
