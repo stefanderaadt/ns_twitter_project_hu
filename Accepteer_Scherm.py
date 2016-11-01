@@ -5,6 +5,7 @@ import twitter
 import csv
 import datetime
 
+
 class MainMenu(Frame):
     def __init__(self, master):
         super(MainMenu, self).__init__(master)
@@ -20,13 +21,13 @@ class MainMenu(Frame):
 
     def create_GUI(self):
         screen_width = mainWindow.winfo_screenwidth()
-        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width-1, height="1",
+        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width - 1, height="1",
                             background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label1.grid(row=0, column=0, sticky=W)
-        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width-1, height="2",
+        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width - 1, height="2",
                             background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label2.grid(row=1, column=0, sticky=W)
-        self.refreshb = Button(mainWindow, text="Refresh", width=15, height="1", command=self.ref1, bg="#1c1c6b", fg = 'white')
+        self.refreshb = Button(mainWindow, text="Refresh", width=15, height="1", command=self.ref1, bg="#1c1c6b", fg='white')
         self.refreshb.grid(row=2, column=0, sticky=W)
 
     def Buttons(self):
@@ -38,10 +39,10 @@ class MainMenu(Frame):
 
         self.button = []
 
-        for i in range(0,11):
+        for i in range(0, 11):
             self.button.append(Button(mainWindow,
-                                      text=(str(1+i)+". Tweet: "+ self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
-                                      command=lambda i=i: self.Onpress(i), width=screen_width, anchor='w', height="2",font=(FONT, 13)))
+                                      text=(str(1 + i) + ". Tweet: " + self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
+                                      command=lambda i=i: self.Onpress(i), width=screen_width, anchor='w', height="2", font=(FONT, 13)))
             self.button[i].grid(row=3 + i, column=0, sticky=W)
 
     def TweetOntvangen(self):
@@ -73,6 +74,7 @@ class MainMenu(Frame):
                 bericht = "U heeft een bericht."
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
+
     def ref1(self):
         self.Buttons()
         self.KleurTweet()
@@ -88,8 +90,8 @@ class MainMenu(Frame):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
             messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verstuurd")
-            #self.twitter.postTweet(self.list[i][0])
-            self.logBestand(self.list[i][0], self.list[i][1],"Verstuurd")
+            # self.twitter.postTweet(self.list[i][0])
+            self.logBestand(self.list[i][0], self.list[i][1], "Verstuurd")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
             self.timer()
@@ -115,7 +117,7 @@ class MainMenu(Frame):
             for lines in s:
                 bestand.write(lines + '\n')
             bestand.write(datetime.datetime.now().strftime("Time: %d-%m-%Y %H:%M:%S, ") + tweet + ', ')
-            bestand.write(plaatser+","+status)
+            bestand.write(plaatser + "," + status)
 
     def FormaatKiezen(self):
         screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
@@ -137,5 +139,5 @@ mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
 MainMenu(mainWindow)
 mainWindow.configure(background='#fcc917')
-mainWindow.iconbitmap(IMG_PATH+"Ns.ico")
+mainWindow.iconbitmap(IMG_PATH + "Ns.ico")
 mainWindow.mainloop()
