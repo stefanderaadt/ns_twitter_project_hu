@@ -39,7 +39,6 @@ class MainMenu(Frame):
 
         p = 0
         for tweet in tweets:
-
             self.listbox.insert(END, tweet['text'])
             self.listbox.insert(END, tweet['created_at'])
 
