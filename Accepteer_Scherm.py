@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import csv
 import twitter
+import csv
 
 
 class MainMenu(Frame):
@@ -13,7 +14,7 @@ class MainMenu(Frame):
         self.grid()
         self.create_GUI()
         self.twitter = twitter.Twitter()
-        self.TweetOntvangen()
+        self.list = self.TweetOntvangen()
         self.FormaatKiezen()
 
 
@@ -42,8 +43,9 @@ class MainMenu(Frame):
                 OntvangenTweets.append([row['tweet'], row['plaatser']])
         return OntvangenTweets
 
+
     def IsTweetOntvangen(self):
-        if len(self.TweetOntvangen()[0]) != 0:
+        if len(self.TweetOntvangen()) != 0:
             Tweet = 1
         else:
             Tweet = 0
@@ -56,31 +58,38 @@ class MainMenu(Frame):
             bericht = 'U heeft geen bericht ontvangen.'
         if self.IsTweetOntvangen() == 1:
             if len(self.TweetOntvangen()[0]) > 1:
-                bericht = "U heeft " + str(len(self.TweetOntvangen()[0])) + " berichten"
+                bericht = "U heeft " + str(len(self.TweetOntvangen())) + " berichten"
                 bericht1 = "Dit zijn de berichten:"
             else:
                 bericht = "U heeft een bericht."
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
 
-    def Onpress(self,i):
+    def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            print(self.TweetOntvangen()[i][0])
-            print(self.TweetOntvangen())
+            print(self.list)
+            self.TweetVerwijderen()
         else:
             print("b")
-        return
+            self.list.remove(self.list[i])
+            return
 
-
+    def TweetVerwijderen(self):
+        with open("data/tweets.csv", "w") as MyCsvFile:
+            fieldnames  = ['tweet', 'plaatser']
+            writer = csv.DictWriter(MyCsvFile, fieldnames=fieldnames)
+            writer.writeheader()
+            print(self.list)
+            for i in range(len(self.list)):
+                writer.writerow(self.list[i][0])
     def FormaatKiezen(self):
         # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
         # if screen == 'fullscreen':
         #     return mainWindow.attributes('-fullscreen', True)
         # else:
-        # return mainWindow.geometry('500x500+1920+200')
+        return mainWindow.geometry('500x500+200+200')
 
-        return mainWindow.geometry('500x500')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
