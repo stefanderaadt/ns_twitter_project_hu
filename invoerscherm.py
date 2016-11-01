@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import pygame
 import random
-from config import CSV_PATH, SOUND_PATH
+from config import CSV_PATH, SOUND_PATH, IMG_PATH
 import csv
 
 class MainMenu(Frame):
@@ -14,8 +14,9 @@ class MainMenu(Frame):
         self.timer()
 
     def create_GUI(self):
-        #self.can = Canvas(mainWindow, bg='red', height=mainWindow.winfo_screenheight(), width=mainWindow.winfo_screenwidth())
-        #self.can.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.can = Canvas(mainWindow, bg='red', height=mainWindow.winfo_screenheight(), width=mainWindow.winfo_screenwidth())
+        self.can.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.img = PhotoImage(file = IMG_PATH+'ns_logo.gif')
 
         Label(mainWindow, text="Bericht", width="10").grid(row=1, column=0)
         Label(mainWindow, text="Naam", width="10").grid(row=2, column=0)
