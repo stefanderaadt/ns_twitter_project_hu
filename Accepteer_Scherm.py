@@ -18,6 +18,7 @@ class MainMenu(Frame):
         self.twitter = twitter.Twitter()
         self.list = self.TweetOntvangen()
         self.FormaatKiezen()
+        self.refresh()
 
 
     def create_GUI(self):
@@ -28,6 +29,9 @@ class MainMenu(Frame):
         self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="1",
                             background=self.KleurTweet(), anchor='w')
         self.label2.grid(row=1, column=0, sticky=W)
+    def refresh(self):
+        for b in self.button:
+            b.grid_forget()
 
         for i in range(len(self.TweetOntvangen())):
             self.button.append(Button(mainWindow,
@@ -70,8 +74,11 @@ class MainMenu(Frame):
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
+            self.twitter.postTweet(self.list[i][0])
+            self.list.remove(self.list[i])
             print(self.list)
             self.TweetVerwijderen()
+            self.refresh()
         else:
             print("b")
             self.list.remove(self.list[i])
@@ -87,7 +94,8 @@ class MainMenu(Frame):
             #    writer.writerow(self.list[i][0])
 
         with open(CSV_PATH, 'w', newline='') as f:
-            writer = csv.writer(f)
+            writer = csv.writer(f , delimiter=',')
+            writer.writerow(['tweet', 'plaatser'])
             for row in self.list:
                 writer.writerow(row)
 
