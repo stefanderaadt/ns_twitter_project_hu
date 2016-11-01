@@ -29,7 +29,7 @@ class MainMenu(Frame):
     def create_GUI(self):
         self.listbox = Listbox(mainWindow, width=xbox, height=ybox)
         self.listbox.grid(row=4, column=0, columnspan=8)
-        
+
 
         self.updateListbox()
 
