@@ -1,5 +1,6 @@
 from tkinter import *
 import twitter
+from config import *
 
 
 class MainMenu(Frame):
@@ -45,7 +46,6 @@ class MainMenu(Frame):
             self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
             self.listbox.insert(END, tweet['created_at'])
 
-            print(tweets)
             p += 1
 
     def timer(self):
@@ -69,6 +69,7 @@ mainWindow.configure(background='#fcc917')
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
 # Dit start alle code in class MainMenu
 app = MainMenu(mainWindow)
+mainWindow.iconbitmap(IMG_PATH+"Ns.ico")
 
 # Start de mainloop als het scherm is aangemaakt in de MainMenu class
 mainWindow.mainloop()
