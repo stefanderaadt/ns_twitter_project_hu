@@ -21,11 +21,9 @@ class MainMenu(Frame):
 
     def create_GUI(self):
         screen_width = mainWindow.winfo_screenwidth()
-        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width - 1, height="1",
-                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
+        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width - 1, height="1", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label1.grid(row=0, column=0, sticky=W)
-        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width - 1, height="2",
-                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
+        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width - 1, height="2", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label2.grid(row=1, column=0, sticky=W)
         self.refreshb = Button(mainWindow, text="Refresh", width=15, height="1", command=self.ref1, bg="#1c1c6b", fg='white')
         self.refreshb.grid(row=2, column=0, sticky=W)
@@ -40,8 +38,7 @@ class MainMenu(Frame):
         self.button = []
 
         for i in range(0, 11):
-            self.button.append(Button(mainWindow,
-                                      text=(str(1 + i) + ". Tweet: " + self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
+            self.button.append(Button(mainWindow, text=(str(1 + i) + ". Tweet: " + self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
                                       command=lambda i=i: self.Onpress(i), width=screen_width, anchor='w', height="2", font=(FONT, 13)))
             self.button[i].grid(row=3 + i, column=0, sticky=W)
 
