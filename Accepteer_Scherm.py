@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import messagebox
 import csv
 import twitter
+import csv
+
+from config import CSV_PATH
 
 
 class MainMenu(Frame):
@@ -13,8 +16,9 @@ class MainMenu(Frame):
         self.grid()
         self.create_GUI()
         self.twitter = twitter.Twitter()
-        self.TweetOntvangen()
+        self.list = self.TweetOntvangen()
         self.FormaatKiezen()
+        self.refresh()
 
 
     def create_GUI(self):
@@ -25,6 +29,9 @@ class MainMenu(Frame):
         self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="1",
                             background=self.KleurTweet(), anchor='w')
         self.label2.grid(row=1, column=0, sticky=W)
+    def refresh(self):
+        for b in self.button:
+            b.grid_forget()
 
         for i in range(len(self.TweetOntvangen())):
             self.button.append(Button(mainWindow,
@@ -42,8 +49,9 @@ class MainMenu(Frame):
                 OntvangenTweets.append([row['tweet'], row['plaatser']])
         return OntvangenTweets
 
+
     def IsTweetOntvangen(self):
-        if len(self.TweetOntvangen()[0]) != 0:
+        if len(self.TweetOntvangen()) != 0:
             Tweet = 1
         else:
             Tweet = 0
@@ -56,21 +64,40 @@ class MainMenu(Frame):
             bericht = 'U heeft geen bericht ontvangen.'
         if self.IsTweetOntvangen() == 1:
             if len(self.TweetOntvangen()[0]) > 1:
-                bericht = "U heeft " + str(len(self.TweetOntvangen()[0])) + " berichten"
+                bericht = "U heeft " + str(len(self.TweetOntvangen())) + " berichten"
                 bericht1 = "Dit zijn de berichten:"
             else:
                 bericht = "U heeft een bericht."
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
 
-    def Onpress(self,i):
+    def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            print(self.TweetOntvangen()[i][0])
-            print(self.TweetOntvangen())
+            self.twitter.postTweet(self.list[i][0])
+            self.list.remove(self.list[i])
+            print(self.list)
+            self.TweetVerwijderen()
+            self.refresh()
         else:
             print("b")
-        return
+            self.list.remove(self.list[i])
+            return
+
+    def TweetVerwijderen(self):
+        #with open("data/tweets.csv", "w") as MyCsvFile:
+            #fieldnames  = ['tweet', 'plaatser']
+            #writer = csv.DictWriter(MyCsvFile, fieldnames=fieldnames)
+            #writer.writeheader()
+            #print(self.list)
+            #for i in range(len(self.list)):
+            #    writer.writerow(self.list[i][0])
+
+        with open(CSV_PATH, 'w', newline='') as f:
+            writer = csv.writer(f , delimiter=',')
+            writer.writerow(['tweet', 'plaatser'])
+            for row in self.list:
+                writer.writerow(row)
 
 
     def FormaatKiezen(self):
@@ -78,9 +105,8 @@ class MainMenu(Frame):
         # if screen == 'fullscreen':
         #     return mainWindow.attributes('-fullscreen', True)
         # else:
-        # return mainWindow.geometry('500x500+1920+200')
+        return mainWindow.geometry('500x500+200+200')
 
-        return mainWindow.geometry('500x500')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
