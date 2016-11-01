@@ -4,6 +4,8 @@ import csv
 import twitter
 import csv
 
+from config import CSV_PATH
+
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -76,13 +78,20 @@ class MainMenu(Frame):
             return
 
     def TweetVerwijderen(self):
-        with open("data/tweets.csv", "w") as MyCsvFile:
-            fieldnames  = ['tweet', 'plaatser']
-            writer = csv.DictWriter(MyCsvFile, fieldnames=fieldnames)
-            writer.writeheader()
-            print(self.list)
-            for i in range(len(self.list)):
-                writer.writerow(self.list[i][0])
+        #with open("data/tweets.csv", "w") as MyCsvFile:
+            #fieldnames  = ['tweet', 'plaatser']
+            #writer = csv.DictWriter(MyCsvFile, fieldnames=fieldnames)
+            #writer.writeheader()
+            #print(self.list)
+            #for i in range(len(self.list)):
+            #    writer.writerow(self.list[i][0])
+
+        with open(CSV_PATH, 'w', newline='') as f:
+            writer = csv.writer(f)
+            for row in self.list:
+                writer.writerow(row)
+
+
     def FormaatKiezen(self):
         # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
         # if screen == 'fullscreen':
