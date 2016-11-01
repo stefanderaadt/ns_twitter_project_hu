@@ -55,7 +55,8 @@ mainWindow = Tk()
 mainWindow.title("Tweets")
 
 # Zet de grote van het scherm
-mainWindow.geometry("600x700")
+
+mainWindow.attributes('-fullscreen', True)
 
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
 # Dit start alle code in class MainMenu
