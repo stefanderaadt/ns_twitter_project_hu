@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import messagebox
+import random
 from config import CSV_PATH, IMG_PATH
 import csv
 
@@ -8,8 +10,12 @@ class MainMenu(Frame):
 
         self.grid()
         self.create_GUI()
+        self.timer()
 
     def create_GUI(self):
+        #self.can = Canvas(mainWindow, bg='red', height=mainWindow.winfo_screenheight(), width=mainWindow.winfo_screenwidth())
+        #self.can.place(relx=0.5, rely=0.5, anchor=CENTER)
+
         Label(mainWindow, text="Bericht", width="10").grid(row=1, column=0)
         Label(mainWindow, text="Naam", width="10").grid(row=2, column=0)
 
@@ -24,13 +30,28 @@ class MainMenu(Frame):
 
     def onPressVerzenden(self):
 
+        error = ""
+
         message = self.message.get()
         naam = self.naam.get()
 
-        if len(message)<=140:
+        message.strip()
+        naam.strip()
+
+        if message == "" or naam == "":
+            error += "Naam of bericht is leeg!\n"
+
+        if len(message) > 140:
+            error += "Lengte van tweet is te lang!\n"
+
+        if error=="":
             self.writeFile([message,naam])
+            self.naam.delete(0, 'end')
+            self.message.delete(0, 'end')
         else:
-            print("FOUT")
+            print(error)
+            messagebox.showinfo("Fout!", error)
+
 
 
     def writeFile(self, r):
@@ -39,6 +60,10 @@ class MainMenu(Frame):
             writer.writerow(r)
 
         return
+
+    def timer(self):
+        mainWindow.configure(background='#%02x%02x%02x' % (random.randrange(255), random.randrange(255), random.randrange(255)))
+        self.after(60000, self.timer)
 
 
 mainWindow = Tk()
