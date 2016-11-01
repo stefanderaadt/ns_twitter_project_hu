@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
+import pygame
 import random
-from config import CSV_PATH, IMG_PATH
+from config import CSV_PATH, SOUND_PATH
 import csv
 
 class MainMenu(Frame):
@@ -48,8 +49,13 @@ class MainMenu(Frame):
             self.writeFile([message,naam])
             self.naam.delete(0, 'end')
             self.message.delete(0, 'end')
+            pygame.mixer.init()
+            pygame.mixer.music.load(SOUND_PATH+"ns.mp3")
+            pygame.mixer.music.play()
         else:
-            print(error)
+            pygame.mixer.init()
+            pygame.mixer.music.load(SOUND_PATH+"xp.mp3")
+            pygame.mixer.music.play()
             messagebox.showinfo("Fout!", error)
 
 
@@ -68,7 +74,7 @@ class MainMenu(Frame):
 
 mainWindow = Tk()
 mainWindow.title("Invoer scherm")
-# mainWindow.geometry("450x450")
-mainWindow.attributes('-fullscreen', True)
+mainWindow.geometry("450x450")
+#mainWindow.attributes('-fullscreen', True)
 app = MainMenu(mainWindow)
 mainWindow.mainloop()
