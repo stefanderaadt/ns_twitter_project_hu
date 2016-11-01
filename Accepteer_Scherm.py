@@ -8,6 +8,8 @@ class MainMenu(Frame):
     def __init__(self, master):
         super(MainMenu, self).__init__(master)
 
+        self.button = []
+
         self.grid()
         self.create_GUI()
         self.twitter = twitter.Twitter()
@@ -23,23 +25,22 @@ class MainMenu(Frame):
         self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="1",
                             background=self.KleurTweet(), anchor='w')
         self.label2.grid(row=1, column=0, sticky=W)
-        for i in range(len(self.TweetOntvangen()[0])):
-            self.button = Button(mainWindow,
-                                 text=(self.TweetOntvangen()[0][i] + " ontvangen door, " + self.TweetOntvangen()[1][i]),
-                                 command=self.Onpress, width="2000", anchor='w')
 
-            self.button.grid(row=2 + i, column=0, sticky=W)
+        for i in range(len(self.TweetOntvangen())):
+            self.button.append(Button(mainWindow,
+                                 text=(self.TweetOntvangen()[i][0] + " ontvangen door, " + self.TweetOntvangen()[i][1]),
+                                 command= lambda i=i: self.Onpress(i), width="2000", anchor='w'))
+
+            self.button[i].grid(row=2 + i, column=0, sticky=W)
 
     def TweetOntvangen(self):
         # Alle Tweets met daarbij de verzender word uit een CSV-bestand naar een list geschreven
         with open("data/tweets.csv ", "r") as MyCsvFile:
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
-            GeplaatstDoor = []
             for row in reader:
-                OntvangenTweets.append(row['tweet'])
-                GeplaatstDoor.append(row["plaatser"])
-        return OntvangenTweets, GeplaatstDoor
+                OntvangenTweets.append([row['tweet'], row['plaatser']])
+        return OntvangenTweets
 
     def IsTweetOntvangen(self):
         if len(self.TweetOntvangen()[0]) != 0:
@@ -62,10 +63,11 @@ class MainMenu(Frame):
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
 
-    def Onpress(self):
+    def Onpress(self,i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            print(self.TweetOntvangen()[0][0])
+            print(self.TweetOntvangen()[i][0])
+            print(self.TweetOntvangen())
         else:
             print("b")
         return
