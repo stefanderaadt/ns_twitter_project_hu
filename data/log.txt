@@ -1,0 +1,8 @@
+Tijd,Tweet,Plaatser,Status
+Time: 01-11-2016 21:58:08, Hallo, Jeffrey,Verstuurd
+Time: 01-11-2016 21:58:11, Hallo, Jeffrey,Afgewezen
+Time: 01-11-2016 21:58:13, Hallo, Jeffrey,Verstuurd
+Time: 01-11-2016 21:58:16, Hallo, Jeffrey,Afgewezen
+Time: 01-11-2016 21:59:21, Hallo, Jeffrey,Verstuurd
+Time: 01-11-2016 23:25:17, @Jeffrey Dit is een test bericht, jeffrey,Afgewezen
+Time: 01-11-2016 23:51:39, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalo, Jeffrey,Afgewezen

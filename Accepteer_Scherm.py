@@ -10,23 +10,31 @@ class MainMenu(Frame):
     def __init__(self, master):
         super(MainMenu, self).__init__(master)
         self.button = []
-
+        self.list = self.TweetOntvangen()
         self.frame = Frame
         self.grid()
         self.create_GUI()
+        self.create_overige_GUI()
         self.twitter = twitter.Twitter()
-        self.list = self.TweetOntvangen()
         self.FormaatKiezen()
         self.timer()
 
     def create_GUI(self):
         screen_width = mainWindow.winfo_screenwidth()
-        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width - 1, height="1", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
+        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width, height="1",
+                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label1.grid(row=0, column=0, sticky=W)
-        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width - 1, height="2", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
+        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width, height="2", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label2.grid(row=1, column=0, sticky=W)
+
+    def create_overige_GUI(self):
+
+        self.photo = PhotoImage(file=IMG_PATH + "ns_logoklein.png")
+        self.nsimage = Button(mainWindow, command=self.Onpressns, image=self.photo, width="200", height="97")
+        self.nsimage.place(relx=1, rely=1, anchor=SE)
         self.refreshb = Button(mainWindow, text="Refresh", width=15, height="1", command=self.ref1, bg="#1c1c6b", fg='white')
-        self.refreshb.grid(row=2, column=0, sticky=W)
+        # self.refreshb.grid(row=2, column=0, sticky=W)
+        self.refreshb.place(relx=1, rely=0.112, anchor=E)
 
     def Buttons(self):
         screen_width = mainWindow.winfo_screenwidth()
@@ -37,10 +45,11 @@ class MainMenu(Frame):
 
         self.button = []
 
-        for i in range(0, 11):
-            self.button.append(Button(mainWindow, text=(str(1 + i) + ". Tweet: " + self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
-                                      command=lambda i=i: self.Onpress(i), width=screen_width, anchor='w', height="2", font=(FONT, 13)))
-            self.button[i].grid(row=3 + i, column=0, sticky=W)
+        for i in range(len(self.TweetOntvangen())):  # self.list[i][0]
+            self.button.append(Button(mainWindow, text=(self.list[i][0] + ". \nontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
+                                      command=lambda i=i: self.Onpress(i), width=self.buttonWidth(self.list[i][0]), anchor=CENTER, height="2", bg='#1c1c6b', fg='#ffffff', font=(FONT, 13)))
+            # self.button[i].grid(row=3 + i, column=0, sticky=W)
+            self.button[i].place(relx=0.5, rely=0.20 + (0.072 * i), anchor=CENTER)
 
     def TweetOntvangen(self):
         # Alle Tweets met daarbij de verzender word uit een CSV-bestand naar een list geschreven
@@ -83,6 +92,9 @@ class MainMenu(Frame):
         self.create_GUI()
         self.after(15000, self.timer)
 
+    def Onpressns(self):
+        messagebox.showinfo("NS bericht", "De NS groet u.")
+
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
@@ -121,7 +133,7 @@ class MainMenu(Frame):
         if screen == 'fullscreen':
             return mainWindow.attributes('-fullscreen', True)
         else:
-            return mainWindow.geometry('650x900+200+200')
+            return mainWindow.geometry('1920x1020+0+27')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
@@ -131,6 +143,19 @@ class MainMenu(Frame):
             kleur = "green"
         return kleur
 
+    # def buttonWidth(self):
+    #     width = 50
+    #     for i in range(len(self.list)):
+    #         if len(self.list[i][0]) > width:
+    #             width = len(self.list[i][0])
+    #             print(width)
+    #     return width
+    def buttonWidth(self, inputr):
+        width = 120
+        if len(inputr) > width:
+            width = len(inputr)
+            print(width)
+        return width
 
 mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
