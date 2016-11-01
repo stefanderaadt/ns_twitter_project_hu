@@ -96,8 +96,8 @@ class MainMenu(Frame):
 
 mainWindow = Tk()
 mainWindow.title("Invoer scherm")
-#mainWindow.geometry("450x450")
-mainWindow.attributes('-fullscreen', True)
+mainWindow.geometry("1920x1000")
+#mainWindow.attributes('-fullscreen', True)
 app = MainMenu(mainWindow)
 mainWindow.iconbitmap(IMG_PATH+"Ns.ico")
 mainWindow.mainloop()
