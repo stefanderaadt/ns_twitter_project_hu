@@ -38,11 +38,12 @@ class MainMenu(Frame):
             self.button = Button(mainWindow, text="Please let it work", width="40")
             self.button.grid(row=p, column=0)
 
-            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Georgia", 16))
+            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Georgia", 16), bg = "#1c1c6b", fg = 'white')
             self.listbox.grid(row=p, column=1)
             self.listbox.insert(END, tweet['text'])
             self.listbox.insert(END, tweet['created_at'])
 
+            print(tweets)
             p += 1
 
 
@@ -57,6 +58,7 @@ mainWindow.title("Tweets")
 # Zet de grote van het scherm
 
 mainWindow.attributes('-fullscreen', True)
+mainWindow.configure(background='#ffff30')
 
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
 # Dit start alle code in class MainMenu
