@@ -38,7 +38,7 @@ class MainMenu(Frame):
 
         self.button = []
 
-        for i in range(len(self.list)):
+        for i in range(0,11):
             self.button.append(Button(mainWindow,
                                       text=(str(1+i)+". Tweet: "+ self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
                                       command=lambda i=i: self.Onpress(i), width=screen_width, anchor='w', height="2",font=(FONT, 13)))
@@ -76,7 +76,7 @@ class MainMenu(Frame):
     def ref1(self):
         self.Buttons()
         self.KleurTweet()
-
+        self.create_GUI()
 
     def timer(self):
         self.Buttons()
@@ -87,14 +87,15 @@ class MainMenu(Frame):
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            self.twitter.postTweet(self.list[i][0])
-            self.logBestand(self.list[i][0], self.list[i][1])
+            messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verstuurd")
+            #self.twitter.postTweet(self.list[i][0])
+            self.logBestand(self.list[i][0], self.list[i][1],"Verstuurd")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
             self.timer()
         else:
             messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verwijderd")
-            self.logBestand(self.list[i][0], self.list[i][1])
+            self.logBestand(self.list[i][0], self.list[i][1], "Afgewezen")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
             self.timer()
@@ -107,14 +108,14 @@ class MainMenu(Frame):
             for row in self.list:
                 writer.writerow(row)
 
-    def logBestand(self, tweet, plaatser):
+    def logBestand(self, tweet, plaatser, status):
         with open(LOG_PATH, 'r') as rbestand:
             s = rbestand.read().splitlines()
         with open(LOG_PATH, "w") as bestand:
             for lines in s:
                 bestand.write(lines + '\n')
             bestand.write(datetime.datetime.now().strftime("Time: %d-%m-%Y %H:%M:%S, ") + tweet + ', ')
-            bestand.write(plaatser)
+            bestand.write(plaatser+","+status)
 
     def FormaatKiezen(self):
         screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
