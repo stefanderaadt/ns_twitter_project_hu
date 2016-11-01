@@ -82,14 +82,12 @@ class MainMenu(Frame):
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            r = self.list[i]
             self.twitter.postTweet(self.list[i][0])
             self.logBestand(self.list[i][0], self.list[i][1])
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
             self.refresh()
         else:
-            print("b")
             messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verwijderd")
             self.logBestand(self.list[i][0], self.list[i][1])
             self.list.remove(self.list[i])
@@ -114,11 +112,11 @@ class MainMenu(Frame):
             bestand.write(plaatser)
 
     def FormaatKiezen(self):
-        # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
-        # if screen == 'fullscreen':
-        #     return mainWindow.attributes('-fullscreen', True)
-        # else:
-        return mainWindow.geometry('500x500+200+200')
+        screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
+        if screen == 'fullscreen':
+            return mainWindow.attributes('-fullscreen', True)
+        else:
+            return mainWindow.geometry('500x500+200+200')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
