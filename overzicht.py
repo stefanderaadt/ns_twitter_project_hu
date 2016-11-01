@@ -72,3 +72,5 @@ app = MainMenu(mainWindow)
 
 # Start de mainloop als het scherm is aangemaakt in de MainMenu class
 mainWindow.mainloop()
+
+#goddamnit JEffrey
