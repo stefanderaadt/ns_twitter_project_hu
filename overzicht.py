@@ -58,7 +58,7 @@ mainWindow.title("Tweets")
 # Zet de grote van het scherm
 
 mainWindow.attributes('-fullscreen', True)
-mainWindow.configure(background='#ffff30')
+mainWindow.configure(background='#fcc917')
 
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
 # Dit start alle code in class MainMenu
