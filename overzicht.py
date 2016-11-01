@@ -22,6 +22,8 @@ class MainMenu(Frame):
         # Roep de definition create_GUI() hieronder aan om de GUI op te starten
         self.create_GUI()
 
+        self.timer()
+
     # Alle definitions binnen een python class hebben als eerste variabel het eigen object/instance (self).
     # dit gebeurt vanzelf en hoef je verder niets voor te doen.
     def create_GUI(self):
@@ -38,13 +40,17 @@ class MainMenu(Frame):
             self.button = Button(mainWindow, text="Please let it work", width="40")
             self.button.grid(row=p, column=0)
 
-            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Georgia", 20), bg = "#1c1c6b", fg = 'white')
+            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
             self.listbox.grid(row=p, column=1)
             self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
             self.listbox.insert(END, tweet['created_at'])
 
             print(tweets)
             p += 1
+
+    def timer(self):
+        self.updateListbox()
+        self.after(5000, self.timer)
 
 
 # Begin programma
@@ -66,3 +72,5 @@ app = MainMenu(mainWindow)
 
 # Start de mainloop als het scherm is aangemaakt in de MainMenu class
 mainWindow.mainloop()
+
+#goddamnit JEffreyyyy
