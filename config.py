@@ -9,3 +9,5 @@ CSV_PATH = "data/tweets.csv"
 IMG_PATH = "picture/"
 SOUND_PATH = "sound/"
 LOG_PATH = "data/log.txt"
+
+FONT = "Comic Sans MS"
