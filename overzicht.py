@@ -27,9 +27,8 @@ class MainMenu(Frame):
     # Alle definitions binnen een python class hebben als eerste variabel het eigen object/instance (self).
     # dit gebeurt vanzelf en hoef je verder niets voor te doen.
     def create_GUI(self):
-        self.listbox = Listbox(mainWindow, width=xbox, height=ybox)
+        self.listbox = Listbox(mainWindow, width=xbox, height=ybox , font=("Georgia", 16))
         self.listbox.grid(row=4, column=0, columnspan=8)
-
 
         self.updateListbox()
 
@@ -38,13 +37,18 @@ class MainMenu(Frame):
 
         tweets = self.twitter.getFeed()
 
+        p = 0
         for tweet in tweets:
+
             self.listbox.insert(END, tweet['text'])
+            self.listbox.insert(END, tweet['created_at'])
+
+            p += 1
 
 
 # Begin programma
 
-# Maak een nieuw scherm aan via TKinter(import)
+# Maak een nieuw scherm aan via TKinter(imp
 mainWindow = Tk()
 
 # Zet de titel van het scherm
