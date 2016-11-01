@@ -1,8 +1,6 @@
 from tkinter import *
 import twitter
 
-xbox = 600
-ybox = 700
 
 class MainMenu(Frame):
     # Init wordt standaard opgestart bij het aanroepen van deze class
@@ -27,18 +25,21 @@ class MainMenu(Frame):
     # Alle definitions binnen een python class hebben als eerste variabel het eigen object/instance (self).
     # dit gebeurt vanzelf en hoef je verder niets voor te doen.
     def create_GUI(self):
-        self.listbox = Listbox(mainWindow, width=xbox, height=ybox , font=("Georgia", 16))
-        self.listbox.grid(row=4, column=0, columnspan=8)
+
+        self.listbox = Listbox(mainWindow, width=0, height=0 , font=("Georgia", 16))
+        self.listbox.grid(row=0, column=1)
 
         self.updateListbox()
 
     def updateListbox(self):
-        self.listbox.delete(0, END)
-
         tweets = self.twitter.getFeed()
-
         p = 0
         for tweet in tweets:
+            self.button = Button(mainWindow, text="Please let it work", width="40")
+            self.button.grid(row=p, column=0)
+
+            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Georgia", 16))
+            self.listbox.grid(row=p, column=1)
             self.listbox.insert(END, tweet['text'])
             self.listbox.insert(END, tweet['created_at'])
 
