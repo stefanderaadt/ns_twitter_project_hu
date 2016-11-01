@@ -4,6 +4,7 @@ from config import *
 import twitter
 import csv
 import datetime
+import termcolor
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -38,7 +39,7 @@ class MainMenu(Frame):
 
         for i in range(len(self.list)):
             self.button.append(Button(mainWindow,
-                                      text=(str(1+i)+". "+ self.list[i][0] + " ontvangen door, " + self.list[i][1]),
+                                      text=(str(1+i)+". Tweet: "+ self.list[i][0] + ". ontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
                                       command=lambda i=i: self.Onpress(i), width="2000", anchor='w', height="2",font=(FONT, 13)))
 
             self.button[i].grid(row=2 + i, column=0, sticky=W)
@@ -49,7 +50,7 @@ class MainMenu(Frame):
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
             for row in reader:
-                OntvangenTweets.append([row['tweet'], row['plaatser']])
+                OntvangenTweets.append([row['tweet'], row['plaatser'], row['tijd']])
         return OntvangenTweets
 
     def IsTweetOntvangen(self):
@@ -77,7 +78,7 @@ class MainMenu(Frame):
         self.refresh()
         self.KleurTweet()
         self.create_GUI()
-        self.after(750, self.timer)
+        self.after(1500, self.timer)
 
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")

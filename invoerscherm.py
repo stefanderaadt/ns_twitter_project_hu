@@ -4,6 +4,7 @@ import pygame
 import random
 from config import CSV_PATH, SOUND_PATH, IMG_PATH, FONT
 import csv
+import datetime
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -37,6 +38,7 @@ class MainMenu(Frame):
 
         message = self.message.get()
         naam = self.naam.get()
+        tijd = datetime.datetime.now().strftime("%H:%M:%S op %d-%m-%Y")
 
         message.strip()
         naam.strip()
@@ -48,7 +50,7 @@ class MainMenu(Frame):
             error += "Lengte van tweet is te lang!\n"
 
         if error=="":
-            self.writeFile([message,naam])
+            self.writeFile([message,naam,tijd])
             self.naam.delete(0, 'end')
             self.message.delete(0, 'end')
             pygame.mixer.init()
