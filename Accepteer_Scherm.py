@@ -22,10 +22,10 @@ class MainMenu(Frame):
     def create_GUI(self):
         r = ''
         self.label1 = Label(mainWindow, text=self.MainMessage()[0], width="2000", height="1",
-                            background=self.KleurTweet(), anchor='w', font=("Helvetica", 16))
+                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label1.grid(row=0, column=0, sticky=W)
         self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="2",
-                            background=self.KleurTweet(), anchor='w', font=("Helvetica", 16))
+                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label2.grid(row=1, column=0, sticky=W)
 
     def refresh(self):
@@ -38,8 +38,8 @@ class MainMenu(Frame):
 
         for i in range(len(self.list)):
             self.button.append(Button(mainWindow,
-                                      text=(self.list[i][0] + " ontvangen door, " + self.list[i][1]),
-                                      command=lambda i=i: self.Onpress(i), width="2000", anchor='w'))
+                                      text=(str(1+i)+". "+ self.list[i][0] + " ontvangen door, " + self.list[i][1]),
+                                      command=lambda i=i: self.Onpress(i), width="2000", anchor='w', height="2",font=(FONT, 13)))
 
             self.button[i].grid(row=2 + i, column=0, sticky=W)
 
