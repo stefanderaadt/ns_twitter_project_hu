@@ -1,11 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
-import csv
+from config import *
 import twitter
 import csv
-
-from config import CSV_PATH
-
+import datetime
 
 class MainMenu(Frame):
     def __init__(self, master):
@@ -19,15 +17,15 @@ class MainMenu(Frame):
         self.twitter = twitter.Twitter()
         self.list = self.TweetOntvangen()
         self.FormaatKiezen()
-        self.refresh()
+        self.timer()
 
     def create_GUI(self):
         r = ''
         self.label1 = Label(mainWindow, text=self.MainMessage()[0], width="2000", height="1",
-                            background=self.KleurTweet(), anchor='w')
+                            background=self.KleurTweet(), anchor='w', font=("Helvetica", 16))
         self.label1.grid(row=0, column=0, sticky=W)
-        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="1",
-                            background=self.KleurTweet(), anchor='w')
+        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="2",
+                            background=self.KleurTweet(), anchor='w', font=("Helvetica", 16))
         self.label2.grid(row=1, column=0, sticky=W)
 
     def refresh(self):
@@ -47,7 +45,7 @@ class MainMenu(Frame):
 
     def TweetOntvangen(self):
         # Alle Tweets met daarbij de verzender word uit een CSV-bestand naar een list geschreven
-        with open("data/tweets.csv ", "r") as MyCsvFile:
+        with open(CSV_PATH, "r") as MyCsvFile:
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
             for row in reader:
@@ -75,33 +73,45 @@ class MainMenu(Frame):
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
 
+    def timer(self):
+        self.refresh()
+        self.KleurTweet()
+        self.create_GUI()
+        self.after(750, self.timer)
+
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-
-            # self.twitter.postTweet(self.list[i][0])
+            r = self.list[i]
+            self.twitter.postTweet(self.list[i][0])
+            self.logBestand(self.list[i][0], self.list[i][1])
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
             self.refresh()
         else:
             print("b")
+            messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verwijderd")
+            self.logBestand(self.list[i][0], self.list[i][1])
             self.list.remove(self.list[i])
-            return
+            self.TweetVerwijderen()
+            self.refresh()
 
     def TweetVerwijderen(self):
-        # with open("data/tweets.csv", "w") as MyCsvFile:
-        # fieldnames  = ['tweet', 'plaatser']
-        # writer = csv.DictWriter(MyCsvFile, fieldnames=fieldnames)
-        # writer.writeheader()
-        # print(self.list)
-        # for i in range(len(self.list)):
-        #    writer.writerow(self.list[i][0])
 
         with open(CSV_PATH, 'w', newline='') as f:
             writer = csv.writer(f, delimiter=',')
             writer.writerow(['tweet', 'plaatser'])
             for row in self.list:
                 writer.writerow(row)
+
+    def logBestand(self, tweet, plaatser):
+        with open(LOG_PATH, 'r') as rbestand:
+            s = rbestand.read().splitlines()
+        with open(LOG_PATH, "w") as bestand:
+            for lines in s:
+                bestand.write(lines + '\n')
+            bestand.write(datetime.datetime.now().strftime("Time: %d-%m-%Y %H:%M:%S, ") + tweet + ', ')
+            bestand.write(plaatser)
 
     def FormaatKiezen(self):
         # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
@@ -122,5 +132,6 @@ class MainMenu(Frame):
 mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
 MainMenu(mainWindow)
-mainWindow.configure(background=kleur)
+mainWindow.configure(background='#fcc917')
+mainWindow.iconbitmap(ICO_PATH)
 mainWindow.mainloop()
