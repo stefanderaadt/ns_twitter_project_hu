@@ -1,6 +1,9 @@
 from tkinter import *
 import twitter
 
+xbox = 600
+ybox = 700
+
 class MainMenu(Frame):
     # Init wordt standaard opgestart bij het aanroepen van deze class
     def __init__(self, master):
@@ -24,23 +27,19 @@ class MainMenu(Frame):
     # Alle definitions binnen een python class hebben als eerste variabel het eigen object/instance (self).
     # dit gebeurt vanzelf en hoef je verder niets voor te doen.
     def create_GUI(self):
+        self.listbox = Listbox(mainWindow, width=xbox, height=ybox)
+        self.listbox.grid(row=4, column=0, columnspan=8)
+        
 
-        # Maak een label variabel aan die vast zit aan het mainmenu object
-        # Alle parameters en uitleg voor bijvoorbeeld het label staan hier: https://www.tutorialspoint.com/python/python_gui_programming.htm
-        self.label = Label(mainWindow, text="Bericht", width="10")
+        self.updateListbox()
 
-        # Instellen op welke positie van het scherm het label komt te staan.
-        self.label.grid(row=0, column=0)
+    def updateListbox(self):
+        self.listbox.delete(0, END)
 
-        self.message = Entry(mainWindow, width="40")
-        self.message.grid(row=0, column=1)
-
-        # Tweets ophalen via twitter API in een dictionary (tweets)
         tweets = self.twitter.getFeed()
 
-        # Tweets uit het dictionary lezen en hier de text van uitprinten per tweet
         for tweet in tweets:
-            print(tweet['text'])
+            self.listbox.insert(END, tweet['text'])
 
 
 # Begin programma
@@ -49,10 +48,10 @@ class MainMenu(Frame):
 mainWindow = Tk()
 
 # Zet de titel van het scherm
-mainWindow.title("Invoer scherm")
+mainWindow.title("Tweets")
 
 # Zet de grote van het scherm
-mainWindow.geometry("450x450")
+mainWindow.geometry("600x700")
 
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
 # Dit start alle code in class MainMenu
