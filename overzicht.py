@@ -36,8 +36,8 @@ class MainMenu(Frame):
 
     def updateListbox(self):
 
-        self.img = PhotoImage(file=IMG_PATH + 'ns_logo.png')
-        self.img = self.img.subsample(6, 6)
+        self.img = PhotoImage(file=IMG_PATH + 'ns-logo.png')
+        self.img = self.img.subsample(2, 2)
 
         tweets = self.twitter.getFeed()
         p = 0
