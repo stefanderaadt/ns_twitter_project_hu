@@ -1,5 +1,6 @@
 from tkinter import *
 import twitter
+from datetime import datetime
 from config import *
 
 
@@ -55,7 +56,8 @@ class MainMenu(Frame):
             self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
             self.listbox.grid(row=p, column=1)
             self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
-            self.listbox.insert(END, tweet['created_at'])
+            tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
+            self.listbox.insert(END, str(tijd.hour)+":"+str(tijd.minute)+":"+str(tijd.second))
 
             p += 1
 
