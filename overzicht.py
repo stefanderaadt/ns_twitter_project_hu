@@ -35,11 +35,22 @@ class MainMenu(Frame):
         self.updateListbox()
 
     def updateListbox(self):
+
+        self.img = PhotoImage(file=IMG_PATH + 'ns_logo.png')
+        self.img = self.img.subsample(6, 6)
+
         tweets = self.twitter.getFeed()
         p = 0
         for tweet in tweets:
-            self.button = Button(mainWindow, text="Please let it work", width="40")
-            self.button.grid(row=p, column=0)
+            #self.button = Button(mainWindow, text="Please let it work", width="40")
+            #self.button.grid(row=p, column=0)
+
+            self.can = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
+            self.can.grid(row=p, column=0)
+
+
+            self.can.create_image(95, 80, image=self.img)
+
 
             self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
             self.listbox.grid(row=p, column=1)
