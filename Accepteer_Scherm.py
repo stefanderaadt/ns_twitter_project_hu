@@ -5,30 +5,39 @@ import twitter
 import csv
 import datetime
 
+
 class MainMenu(Frame):
     def __init__(self, master):
         super(MainMenu, self).__init__(master)
-
         self.button = []
-
+        self.list = self.TweetOntvangen()
         self.frame = Frame
         self.grid()
         self.create_GUI()
+        self.create_overige_GUI()
         self.twitter = twitter.Twitter()
-        self.list = self.TweetOntvangen()
         self.FormaatKiezen()
         self.timer()
 
     def create_GUI(self):
-        r = ''
-        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width="2000", height="1",
+        screen_width = mainWindow.winfo_screenwidth()
+        self.label1 = Label(mainWindow, text=self.MainMessage()[0], width=screen_width, height="1",
                             background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label1.grid(row=0, column=0, sticky=W)
-        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width="2000", height="2",
-                            background=self.KleurTweet(), anchor='w', font=(FONT, 16))
+        self.label2 = Label(mainWindow, text=self.MainMessage()[1], width=screen_width, height="2", background=self.KleurTweet(), anchor='w', font=(FONT, 16))
         self.label2.grid(row=1, column=0, sticky=W)
 
-    def refresh(self):
+    def create_overige_GUI(self):
+
+        self.photo = PhotoImage(file=IMG_PATH + "ns_logoklein.png")
+        self.nsimage = Button(mainWindow, command=self.Onpressns, image=self.photo, width="200", height="97")
+        self.nsimage.place(relx=1, rely=1, anchor=SE)
+        self.refreshb = Button(mainWindow, text="Refresh", width=15, height="2", command=self.ref1, bg="#1c1c6b", fg='white')
+        # self.refreshb.grid(row=2, column=0, sticky=W)
+        self.refreshb.place(relx=1, rely=0.112, anchor=E)
+
+    def Buttons(self):
+        screen_width = mainWindow.winfo_screenwidth()
         self.list = self.TweetOntvangen()
 
         for b in self.button:
@@ -36,12 +45,11 @@ class MainMenu(Frame):
 
         self.button = []
 
-        for i in range(len(self.list)):
-            self.button.append(Button(mainWindow,
-                                      text=(str(1+i)+". "+ self.list[i][0] + " ontvangen door, " + self.list[i][1]),
-                                      command=lambda i=i: self.Onpress(i), width="2000", anchor='w', height="2",font=(FONT, 13)))
-
-            self.button[i].grid(row=2 + i, column=0, sticky=W)
+        for i in range(len(self.TweetOntvangen())):  # self.list[i][0]
+            self.button.append(Button(mainWindow, text=(self.list[i][0] + ". \nontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
+                                      command=lambda i=i: self.Onpress(i), width=self.buttonWidth(self.list[i][0]), anchor=CENTER, height="2", bg='#1c1c6b', fg='#ffffff', font=(FONT, 13)))
+            # self.button[i].grid(row=3 + i, column=0, sticky=W)
+            self.button[i].place(relx=0.5, rely=0.20 + (0.072 * i), anchor=CENTER)
 
     def TweetOntvangen(self):
         # Alle Tweets met daarbij de verzender word uit een CSV-bestand naar een list geschreven
@@ -49,7 +57,7 @@ class MainMenu(Frame):
             reader = csv.DictReader(MyCsvFile)
             OntvangenTweets = []
             for row in reader:
-                OntvangenTweets.append([row['tweet'], row['plaatser']])
+                OntvangenTweets.append([row['tweet'], row['plaatser'], row['tijd']])
         return OntvangenTweets
 
     def IsTweetOntvangen(self):
@@ -73,50 +81,59 @@ class MainMenu(Frame):
                 bericht1 = "Dit is uw bericht:"
         return bericht, bericht1
 
-    def timer(self):
-        self.refresh()
+    def ref1(self):
+        self.Buttons()
         self.KleurTweet()
         self.create_GUI()
-        self.after(750, self.timer)
+
+    def timer(self):
+        self.Buttons()
+        self.KleurTweet()
+        self.create_GUI()
+        self.after(15000, self.timer)
+
+    def Onpressns(self):
+        messagebox.showinfo("NS bericht", "De NS groet u.")
 
     def Onpress(self, i):
         result = messagebox.askquestion("Tweet versturen", "Wilt u deze tweet versturen?", icon="warning")
         if result == 'yes':
-            self.twitter.postTweet(self.list[i][0])
-            self.logBestand(self.list[i][0], self.list[i][1])
+            messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verstuurd")
+            # self.twitter.postTweet(self.list[i][0])
+            self.logBestand(self.list[i][0], self.list[i][1], "Verstuurd")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
-            self.refresh()
+            self.timer()
         else:
             messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verwijderd")
-            self.logBestand(self.list[i][0], self.list[i][1])
+            self.logBestand(self.list[i][0], self.list[i][1], "Afgewezen")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
-            self.refresh()
+            self.timer()
 
     def TweetVerwijderen(self):
 
         with open(CSV_PATH, 'w', newline='') as f:
             writer = csv.writer(f, delimiter=',')
-            writer.writerow(['tweet', 'plaatser'])
+            writer.writerow(['tweet', 'plaatser', 'tijd'])
             for row in self.list:
                 writer.writerow(row)
 
-    def logBestand(self, tweet, plaatser):
+    def logBestand(self, tweet, plaatser, status):
         with open(LOG_PATH, 'r') as rbestand:
             s = rbestand.read().splitlines()
         with open(LOG_PATH, "w") as bestand:
             for lines in s:
                 bestand.write(lines + '\n')
             bestand.write(datetime.datetime.now().strftime("Time: %d-%m-%Y %H:%M:%S, ") + tweet + ', ')
-            bestand.write(plaatser)
+            bestand.write(plaatser + "," + status)
 
     def FormaatKiezen(self):
-        screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
-        if screen == 'fullscreen':
+        # screen = str(input("screenformaat? Je kunt invullen:\nFullscreen\nFormaat in HxB bijvoorbeeld 1920x1080\n")).lower()
+        # if screen == 'fullscreen':
             return mainWindow.attributes('-fullscreen', True)
-        else:
-            return mainWindow.geometry('500x500+200+200')
+        # else:
+        # return mainWindow.geometry('1920x1020+0+27')
 
     def KleurTweet(self):
         if self.IsTweetOntvangen() == 0:
@@ -126,10 +143,22 @@ class MainMenu(Frame):
             kleur = "green"
         return kleur
 
+    # def buttonWidth(self):
+    #     width = 50
+    #     for i in range(len(self.list)):
+    #         if len(self.list[i][0]) > width:
+    #             width = len(self.list[i][0])
+    #             print(width)
+    #     return width
+    def buttonWidth(self, tweet):
+        width = 120
+        if len(tweet) > width:
+            width = len(tweet)
+        return width
 
 mainWindow = Tk()
 mainWindow.title("TweetsCheck MainPanel")
 MainMenu(mainWindow)
 mainWindow.configure(background='#fcc917')
-mainWindow.iconbitmap(IMG_PATH+"Ns.ico")
+mainWindow.iconbitmap(IMG_PATH + "Ns.ico")
 mainWindow.mainloop()
