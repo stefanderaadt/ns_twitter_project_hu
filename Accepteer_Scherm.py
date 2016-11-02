@@ -53,6 +53,8 @@ class MainMenu(Frame):
         self.button = []
 
         for i in range(len(self.TweetOntvangen())):  # self.list[i][0]
+            if i>9:
+                break
             self.button.append(Button(mainWindow, text=(self.list[i][0] + ". \nontvangen door: " + self.list[i][1] + " om " + self.list[i][2]),
                                       command=lambda i=i: self.Onpress(i), width=self.buttonWidth(self.list[i][0]), anchor=CENTER, height="2", bg='#1c1c6b', fg='#ffffff', font=(FONT, 15)))
             # self.button[i].grid(row=3 + i, column=0, sticky=W)
@@ -159,7 +161,7 @@ class MainMenu(Frame):
     #             print(width)
     #     return width
     def buttonWidth(self, tweet):
-        width = 120
+        width = 75
         if len(tweet) > width:
             width = len(tweet)
         return width
