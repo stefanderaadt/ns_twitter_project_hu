@@ -43,26 +43,33 @@ class MainMenu(Frame):
         tweets = self.twitter.getFeed()
         p = 0
         for tweet in tweets:
-            #self.button = Button(mainWindow, text="Please let it work", width="40")
-            #self.button.grid(row=p, column=0)
-
-            self.can = Canvas(mainWindow, bg='#66ccFF', height="156", width="200")
-            self.can.grid(row=p, column=0)
-
-
-            self.can.create_image(95, 80, image=self.img)
-
-            self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
-            self.listbox.grid(row=p, column=1)
-            # if len(tweet['text']) > 80:
-            #     self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'], )
-            #     self.listbox.insert(END, tweet['created_at'])
-            # else:
-            self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
+            nowtijd = datetime.now()
             tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
-            self.listbox.insert(END, "tweeted on: " + str(tijd.day) + '-' + str(tijd.month) + " // " + str(tijd.hour)+":"+str(tijd.minute)+":"+str(tijd.second))
 
-            p += 1
+            tuur = tijd.hour
+            ntuur = nowtijd.hour
+            verschil = ntuur - tuur
+
+            if verschil > 0 and verschil <= 1:
+                #self.button = Button(mainWindow, text="Please let it work", width="40")
+                #self.button.grid(row=p, column=0)
+                self.can = Canvas(mainWindow, bg='#66ccFF', height="156", width="200")
+                self.can.grid(row=p, column=0)
+
+
+                self.can.create_image(95, 80, image=self.img)
+
+                self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
+                self.listbox.grid(row=p, column=1)
+                # if len(tweet['text']) > 80:
+                #     self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'], )
+                #     self.listbox.insert(END, tweet['created_at'])
+                # else:
+                self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
+                self.listbox.insert(END, "tweeted on: " + str(tijd.day) + '-' + str(tijd.month) + " // " + str(tijd.hour)+":"+str(tijd.minute))
+                p += 1
+
+
 
     def timer(self):
         self.updateListbox()
