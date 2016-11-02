@@ -49,24 +49,24 @@ class MainMenu(Frame):
             tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
 
             if nowtijd - tijd.replace(tzinfo=None) < timedelta(hours=1):
-                self.can = Canvas(mainWindow, bg='#66ccFF', height="156", width="200")
+                self.can = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
                 self.can.grid(row=p, column=0)
 
                 self.can.create_image(95, 80, image=self.img)
 
-                text = Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white')
+                text = Text(mainWindow, wrap=WORD, width=105, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white')
                 text.grid(row=p, column=1)
 
                 tijd = tijd+timedelta(hours=1)
 
-                text.insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.day) + '-' + '{0:02d}'.format(tijd.month) + " // " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
+                text.insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
                 p += 1
 
 
 
     def timer(self):
         self.updateListbox()
-        self.after(60000, self.timer)
+        self.after(15000, self.timer)
 
 
 # Begin programma
@@ -79,7 +79,7 @@ mainWindow.title("Tweets")
 
 # Zet de grote van het scherm
 
-#mainWindow.attributes('-fullscreen', True)
+mainWindow.attributes('-fullscreen', True)
 mainWindow.configure(background='#fcc917')
 
 # Maak een object aan van de class MainMenu(Frame) hierboven en geef het scherm mainWindow mee
