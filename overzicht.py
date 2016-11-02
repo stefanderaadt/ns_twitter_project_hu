@@ -66,7 +66,7 @@ class MainMenu(Frame):
                 #     self.listbox.insert(END, tweet['created_at'])
                 # else:
                 self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
-                self.listbox.insert(END, "tweeted on: " + str(tijd.day) + '-' + str(tijd.month) + " // " + str(tijd.hour)+":"+str(tijd.minute))
+                self.listbox.insert(END, "tweeted on: " + '{0:02d}'.format(tijd.day) + '-' + '{0:02d}'.format(tijd.month) + " // " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
                 p += 1
 
 
@@ -96,5 +96,3 @@ mainWindow.iconbitmap(IMG_PATH+"Ns.ico")
 
 # Start de mainloop als het scherm is aangemaakt in de MainMenu class
 mainWindow.mainloop()
-
-#goddamnit JEffreyyyy
