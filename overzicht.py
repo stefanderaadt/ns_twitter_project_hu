@@ -46,24 +46,27 @@ class MainMenu(Frame):
             #self.button = Button(mainWindow, text="Please let it work", width="40")
             #self.button.grid(row=p, column=0)
 
-            self.can = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
+            self.can = Canvas(mainWindow, bg='#66ccFF', height="156", width="200")
             self.can.grid(row=p, column=0)
 
 
             self.can.create_image(95, 80, image=self.img)
 
-
             self.listbox = Listbox(mainWindow, width=600, height=4, font=("Comic Sans MS", 20), bg = "#1c1c6b", fg = 'white')
             self.listbox.grid(row=p, column=1)
+            # if len(tweet['text']) > 80:
+            #     self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'], )
+            #     self.listbox.insert(END, tweet['created_at'])
+            # else:
             self.listbox.insert(END, "ns_test tweeted:  \n" + tweet['text'])
             tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
-            self.listbox.insert(END, str(tijd.hour)+":"+str(tijd.minute)+":"+str(tijd.second))
+            self.listbox.insert(END, "tweeted on: " + str(tijd.day) + '-' + str(tijd.month) + " // " + str(tijd.hour)+":"+str(tijd.minute)+":"+str(tijd.second))
 
             p += 1
 
     def timer(self):
         self.updateListbox()
-        self.after(5000, self.timer)
+        self.after(60000, self.timer)
 
 
 # Begin programma
