@@ -113,13 +113,13 @@ class MainMenu(Frame):
             self.logBestand(self.list[i][0], self.list[i][1], "Verstuurd")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
-            self.timer()
+            self.ref1()
         else:
             messagebox.showinfo("Bericht", "Tweet: " + self.list[i][0] + " van " + self.list[i][1] + " is verwijderd")
             self.logBestand(self.list[i][0], self.list[i][1], "Afgewezen")
             self.list.remove(self.list[i])
             self.TweetVerwijderen()
-            self.timer()
+            self.ref1()
 
     def TweetVerwijderen(self):
 
