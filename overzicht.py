@@ -27,7 +27,6 @@ class MainMenu(Frame):
         #self.weatherBox()
         # Roep de definition create_GUI() hieronder aan om de GUI op te starten
         self.create_GUI()
-
         self.timer()
 
 
@@ -69,6 +68,7 @@ class MainMenu(Frame):
         self.can4.create_image(95, 80, image=self.img3)
 
 
+
         for i in range(0,4):
             dag = self.weather[0][p]
             forecast = self.weather[1][p]
@@ -78,7 +78,6 @@ class MainMenu(Frame):
             text.grid(row=p, column=1)
             text.insert(1.0,dag+":\nVerwachting: "+forecast+"\nTemperatuur: "+templ+" tot "+ temph)
             p += 1
-
     def updateListbox(self):
 
         self.img = PhotoImage(file=IMG_PATH + 'ns-logo.png')
@@ -88,6 +87,7 @@ class MainMenu(Frame):
         p = 0
 
         for tweet in tweets:
+
             nowtijd = datetime.utcnow()
             tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
 
@@ -104,8 +104,8 @@ class MainMenu(Frame):
 
                 text.insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
                 p += 1
-            if p == 0:
-                self.weatherBox()
+        if p == 0:
+            self.weatherBox()
 
 
 
@@ -133,6 +133,10 @@ class MainMenu(Frame):
             self.img = self.img.subsample(2, 2)
             return self.img
         if weather == "Merendeels bewolkt":
+            self.img = PhotoImage(file=IMG_PATH + 'merendeels bewolkt.png')
+            self.img = self.img.subsample(2, 2)
+            return self.img
+        if weather == "Geheel bewolkt":
             self.img = PhotoImage(file=IMG_PATH + 'merendeels bewolkt.png')
             self.img = self.img.subsample(2, 2)
             return self.img
