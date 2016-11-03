@@ -82,7 +82,7 @@ class MainMenu(Frame):
             pygame.mixer.music.play()
         else:
             pygame.mixer.init()
-            pygame.mixer.music.load(SOUND_PATH+"xp.mp3")
+            pygame.mixer.music.load(SOUND_PATH+"xp-error.mp3")
             pygame.mixer.music.play()
             messagebox.showinfo("Fout!", error)
 
