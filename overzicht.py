@@ -4,7 +4,6 @@ from datetime import datetime
 from datetime import timedelta
 from config import *
 import requests
-import json
 
 
 class MainMenu(Frame):
@@ -21,6 +20,12 @@ class MainMenu(Frame):
         self.twitter = twitter.Twitter()
         self.weather = self.make_request()
 
+        self.can = []
+        self.text = []
+
+        self.wcan = []
+        self.wtext = []
+
         # Maak een grid aan op het scherm zodat we makkelijk de posities van bijvoorbeeld labels kunnen instellen
         # uitleg: http://effbot.org/tkinterbook/grid.htm
         self.grid()
@@ -34,14 +39,20 @@ class MainMenu(Frame):
     # dit gebeurt vanzelf en hoef je verder niets voor te doen.
     def create_GUI(self):
 
-        self.listbox = Listbox(mainWindow, width=0, height=0 , font=("Georgia", 16))
+        self.listbox = Listbox(mainWindow, width=0, height=0 , font=(FONT, 16))
         self.listbox.grid(row=0, column=1)
 
         self.updateListbox()
+
+
     def weatherBox(self):
-        text1 = Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white')
-        text1.grid(row=0, column=1)
-        text1.insert(1.0, "weersverwachting")
+        self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=(FONT, 20), bg="#1c1c6b", fg='white'))
+        self.wtext[len(self.wtext) - 1].grid(row=0, column=1)
+        self.wtext[len(self.wtext) - 1].insert(1.0, "weersverwachting")
+
+        self.wcan = []
+        self.wtext = []
+
         p = 0
         self.img0 = self.chooseImage(self.weather[1][0])
 
@@ -51,21 +62,21 @@ class MainMenu(Frame):
 
         self.img3 = self.chooseImage(self.weather[1][3])
 
-        self.can1 = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
-        self.can1.grid(row=0, column=0)
-        self.can1.create_image(95, 80, image=self.img0)
+        self.wcan.append(Canvas(mainWindow, bg='#1c1c6b', height="156", width="200"))
+        self.wcan[len(self.wcan)-1].grid(row=0, column=0)
+        self.wcan[len(self.wcan)-1].create_image(95, 80, image=self.img0)
 
-        self.can2 = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
-        self.can2.grid(row=1, column=0)
-        self.can2.create_image(95, 80, image=self.img1)
+        self.wcan.append(Canvas(mainWindow, bg='#1c1c6b', height="156", width="200"))
+        self.wcan[len(self.wcan)-1].grid(row=1, column=0)
+        self.wcan[len(self.wcan)-1].create_image(95, 80, image=self.img1)
 
-        self.can3 = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
-        self.can3.grid(row=2, column=0)
-        self.can3.create_image(95, 80, image=self.img2)
+        self.wcan.append(Canvas(mainWindow, bg='#1c1c6b', height="156", width="200"))
+        self.wcan[len(self.wcan)-1].grid(row=2, column=0)
+        self.wcan[len(self.wcan)-1].create_image(95, 80, image=self.img2)
 
-        self.can4 = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
-        self.can4.grid(row=3, column=0)
-        self.can4.create_image(95, 80, image=self.img3)
+        self.wcan.append(Canvas(mainWindow, bg='#1c1c6b', height="156", width="200"))
+        self.wcan[len(self.wcan)-1].grid(row=3, column=0)
+        self.wcan[len(self.wcan)-1].create_image(95, 80, image=self.img3)
 
 
 
@@ -74,11 +85,17 @@ class MainMenu(Frame):
             forecast = self.weather[1][p]
             temph = self.weather[2][p]
             templ = self.weather[3][p]
-            text = Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white')
-            text.grid(row=p, column=1)
-            text.insert(1.0,dag+":\nVerwachting: "+forecast+"\nTemperatuur: "+templ+" tot "+ temph)
+            self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white'))
+            self.wtext[len(self.wtext) - 1].grid(row=p, column=1)
+            self.wtext[len(self.wtext) - 1].insert(1.0,dag+":\nVerwachting: "+forecast+"\nTemperatuur: "+templ+" tot "+ temph)
             p += 1
     def updateListbox(self):
+
+        for can in self.can:
+            can.destroy()
+
+        for text in self.text:
+            text.destroy()
 
         self.img = PhotoImage(file=IMG_PATH + 'ns-logo.png')
         self.img = self.img.subsample(2, 2)
@@ -86,32 +103,40 @@ class MainMenu(Frame):
         tweets = self.twitter.getFeed()
         p = 0
 
+
         for tweet in tweets:
 
             nowtijd = datetime.utcnow()
             tijd = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S %z %Y')
 
             if nowtijd - tijd.replace(tzinfo=None) < timedelta(hours=1):
-                self.can = Canvas(mainWindow, bg='#1c1c6b', height="156", width="200")
-                self.can.grid(row=p, column=0)
+                self.can.append(Canvas(mainWindow, bg='#1c1c6b', height="156", width="200"))
+                self.can[len(self.can) - 1].grid(row=p, column=0)
+                self.can[len(self.can) - 1].create_image(95, 80, image=self.img)
 
-                self.can.create_image(95, 80, image=self.img)
-
-                text = Text(mainWindow, wrap=WORD, width=105, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white')
-                text.grid(row=p, column=1)
+                self.text.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white'))
+                self.text[len(self.text) - 1].grid(row=p, column=1)
 
                 tijd = tijd+timedelta(hours=1)
 
-                text.insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
+                self.text[len(self.text) - 1].insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
                 p += 1
+
+
         if p == 0:
             self.weatherBox()
+        else:
+            for can in self.wcan:
+                can.destroy()
+
+            for text in self.wtext:
+                text.destroy()
 
 
 
     def timer(self):
         self.updateListbox()
-        self.after(15000, self.timer)
+        self.after(60000, self.timer)
 
     def make_request(self):
         r = requests.get("http://api.wunderground.com/api/c9993c7d284fcac9/forecast/lang:NL/q/NL/utrecht.json")
