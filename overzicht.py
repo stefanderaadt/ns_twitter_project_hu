@@ -45,6 +45,7 @@ class MainMenu(Frame):
         self.updateListbox()
 
 
+    # roept de weer API aan
     def weatherBox(self):
         self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=(FONT, 20), bg="#1c1c6b", fg='white'))
         self.wtext[len(self.wtext) - 1].grid(row=0, column=1)
@@ -79,7 +80,6 @@ class MainMenu(Frame):
         self.wcan[len(self.wcan)-1].create_image(95, 80, image=self.img3)
 
 
-
         for i in range(0,4):
             dag = self.weather[0][p]
             forecast = self.weather[1][p]
@@ -89,6 +89,9 @@ class MainMenu(Frame):
             self.wtext[len(self.wtext) - 1].grid(row=p, column=1)
             self.wtext[len(self.wtext) - 1].insert(1.0,dag+":\nVerwachting: "+forecast+"\nTemperatuur: "+templ+" tot "+ temph)
             p += 1
+
+
+    # Zorgt ervoor dat het overzichtscherm alleen de meest actuele tweets weergeeft
     def updateListbox(self):
 
         for can in self.can:
@@ -133,11 +136,12 @@ class MainMenu(Frame):
                 text.destroy()
 
 
-
+    # Een timer voor het verversen van het overzichtscherm
     def timer(self):
         self.updateListbox()
         self.after(60000, self.timer)
 
+    # vraagt de weersverwachtingen op
     def make_request(self):
         r = requests.get("http://api.wunderground.com/api/c9993c7d284fcac9/forecast/lang:NL/q/NL/utrecht.json")
         data = r.json()
@@ -152,6 +156,7 @@ class MainMenu(Frame):
             temperatuurl.append(day['low']['celsius'] + "C")
         return dag,forecast,temperatuurh,temperatuurl
 
+    # Selecteert het juiste plaatje voor een weersvoorspellingen
     def chooseImage(self,weather):
         if weather == "Gedeeltelijk bewolkt":
             self.img = PhotoImage(file=IMG_PATH + 'deelsbewolkt.png')
@@ -173,6 +178,7 @@ class MainMenu(Frame):
             self.img = PhotoImage(file=IMG_PATH + 'zonnig.png')
             self.img = self.img.subsample(2, 2)
             return self.img
+
 # Begin programma
 
 # Maak een nieuw scherm aan via TKinter(imp
