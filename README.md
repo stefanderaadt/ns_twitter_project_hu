@@ -27,4 +27,9 @@ pip install requests
 ```
 
 ## Starting the programs
-Run invoerscherm.py, accepteerscherm.py, or overzicht.py with Python 3
+Double click the files invoerscherm.py, accepteerscherm.py or overzicht.py. Or run the programs from git bash:
+```
+Python invoerscherm.py
+Python accepteerscherm.py
+Python overzicht.py
+```
