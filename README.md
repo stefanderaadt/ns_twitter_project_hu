@@ -27,7 +27,7 @@ pip install requests
 ```
 
 ## Starting the programs
-Right click the file in pycharm and press **Run**
+Right click invoerscherm.py, accepteerscherm.py or overzicht.py in pycharm and press **Run**
 
 Double click the files invoerscherm.py, accepteerscherm.py or overzicht.py in Windows.
 
