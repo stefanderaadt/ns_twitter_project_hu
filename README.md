@@ -19,7 +19,7 @@ requests
 File -> Settings... -> Project: ns_twitter_project_hu -> Project Interpreter
 Press the green + and install the plugins from the list above.
 
-**If you don't have PyCharm go to the project folder in git bash and type:**
+**If you don't have PyCharm open git bash and go to the project folder. After this type the following commands:**
 ```
 pip install oauth2
 pip install pygame
