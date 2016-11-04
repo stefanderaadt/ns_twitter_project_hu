@@ -26,5 +26,5 @@ pip install pygame
 pip install requests
 ```
 
-## Starting the program
+## Starting the programs
 Run invoerscherm.py, accepteerscherm.py, or overzicht.py with Python 3
