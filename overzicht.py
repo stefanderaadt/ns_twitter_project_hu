@@ -29,7 +29,7 @@ class MainMenu(Frame):
         # Maak een grid aan op het scherm zodat we makkelijk de posities van bijvoorbeeld labels kunnen instellen
         # uitleg: http://effbot.org/tkinterbook/grid.htm
         self.grid()
-        #self.weatherBox()
+
         # Roep de definition create_GUI() hieronder aan om de GUI op te starten
         self.create_GUI()
         self.timer()
@@ -42,14 +42,13 @@ class MainMenu(Frame):
         self.listbox = Listbox(mainWindow, width=0, height=0 , font=(FONT, 16))
         self.listbox.grid(row=0, column=1)
 
-        self.updateListbox()
-
 
     # roept de weer API aan
     def weatherBox(self):
         self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=(FONT, 20), bg="#1c1c6b", fg='white'))
         self.wtext[len(self.wtext) - 1].grid(row=0, column=1)
         self.wtext[len(self.wtext) - 1].insert(1.0, "weersverwachting")
+        self.wtext[len(self.wtext) - 1].config(state=DISABLED)
 
         self.wcan = []
         self.wtext = []
@@ -85,9 +84,10 @@ class MainMenu(Frame):
             forecast = self.weather[1][p]
             temph = self.weather[2][p]
             templ = self.weather[3][p]
-            self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white'))
+            self.wtext.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=(FONT, 20), bg="#1c1c6b", fg='white'))
             self.wtext[len(self.wtext) - 1].grid(row=p, column=1)
             self.wtext[len(self.wtext) - 1].insert(1.0,dag+":\nVerwachting: "+forecast+"\nTemperatuur: "+templ+" tot "+ temph)
+            self.wtext[len(self.wtext) - 1].config(state=DISABLED)
             p += 1
 
 
@@ -106,7 +106,6 @@ class MainMenu(Frame):
         tweets = self.twitter.getFeed()
         p = 0
 
-
         for tweet in tweets:
 
             nowtijd = datetime.utcnow()
@@ -117,12 +116,13 @@ class MainMenu(Frame):
                 self.can[len(self.can) - 1].grid(row=p, column=0)
                 self.can[len(self.can) - 1].create_image(95, 80, image=self.img)
 
-                self.text.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=("Comic Sans MS", 20), bg="#1c1c6b", fg='white'))
+                self.text.append(Text(mainWindow, wrap=WORD, width=107, height=4, font=(FONT, 20), bg="#1c1c6b", fg='white'))
                 self.text[len(self.text) - 1].grid(row=p, column=1)
 
                 tijd = tijd+timedelta(hours=1)
 
                 self.text[len(self.text) - 1].insert(1.0, tweet['text'] + "\n" + "tweeted on: " + '{0:02d}'.format(tijd.hour)+":"+'{0:02d}'.format(tijd.minute))
+                self.text[len(self.text) - 1].config(state=DISABLED)
                 p += 1
 
 
@@ -148,13 +148,17 @@ class MainMenu(Frame):
         dag = []
         forecast = []
         temperatuurh = []
-        temperatuurl= []
+        temperatuurl = []
+
+        if 'forecast' not in data:
+            return dag, forecast, temperatuurh, temperatuurl
+
         for day in data['forecast']['simpleforecast']['forecastday']:
             dag.append(day['date']['weekday'])
             forecast.append(day['conditions'])
             temperatuurh.append(day['high']['celsius'] + "C")
             temperatuurl.append(day['low']['celsius'] + "C")
-        return dag,forecast,temperatuurh,temperatuurl
+        return dag, forecast, temperatuurh, temperatuurl
 
     # Selecteert het juiste plaatje voor een weersvoorspellingen
     def chooseImage(self,weather):
