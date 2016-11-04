@@ -19,7 +19,7 @@ requests
 File -> Settings... -> Project: ns_twitter_project_hu -> Project Interpreter
 Press the green + and install the plugins from the list above.
 
-**Without pycharm go to the project folder in git bash and type:**
+**If you don't have PyCharm go to the project folder in git bash and type:**
 ```
 pip install oauth2
 pip install pygame
@@ -27,7 +27,11 @@ pip install requests
 ```
 
 ## Starting the programs
-Double click the files invoerscherm.py, accepteerscherm.py or overzicht.py. Or run the programs from git bash:
+Right click the file in pycharm and press **Run**
+
+Double click the files invoerscherm.py, accepteerscherm.py or overzicht.py in Windows.
+
+Run the programs from git bash:
 ```
 Python invoerscherm.py
 Python accepteerscherm.py
