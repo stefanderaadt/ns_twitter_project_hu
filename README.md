@@ -10,7 +10,9 @@ Jeffrey, Pepijn, Boris, Stefan and Jan
 
 **Make sure to add the following plugins to the project:** 
 > oauth2
+
 > pygame
+
 > requests
 
 **In PyCharm go to:**
@@ -19,7 +21,9 @@ Press the green + and install the plugins from the list above.
 
 **Without pycharm go to the project folder in git bash and type:**
 > pip install oauth2
-> pip isntall pygame
+
+> pip install pygame
+
 > pip install requests
 
 ## Starting the program
