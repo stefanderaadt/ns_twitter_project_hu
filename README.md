@@ -37,3 +37,6 @@ Python invoerscherm.py
 Python accepteerscherm.py
 Python overzicht.py
 ```
+
+### Common problems
+Make sure windows zoom is set to 100% instead of the default 125% if you have a resolution of 1920x1080
